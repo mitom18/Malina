@@ -1,5 +1,6 @@
 #coding:utf-8
 from math import sqrt
+print (15)
 cislo=input("Zadejte číslo, které mám otestovat:")
 while(cislo>1):
   odm=sqrt(cislo)+1 #kvůli chybám v odmocnině
