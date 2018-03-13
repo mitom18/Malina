@@ -1,19 +1,16 @@
-#import picamera
+import picamera
 import time
 import cv2
 import numpy as np
 #from matplotlib import pyplot as plt
 
-"""
+
 camera = picamera.PiCamera()
 
-camera.start_preview()
-time.sleep(10)
-camera.stop_preview()
-
+camera.capture('image.jpg')
 
 camera.close()
-"""
+
 img = cv2.imread('image.jpg')
 img2 = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
 hsv_img = cv2.cvtColor(img2, cv2.COLOR_BGR2HSV)
