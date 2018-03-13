@@ -28,7 +28,7 @@ opening = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
 kernel = np.ones((3,3),np.uint8)
 closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel)
 
-res = cv2.bitwise_and(img2,img2, mask= closing)
+res = img2#cv2.bitwise_and(img2,img2, mask= closing)
 cerne = []
 for y in range (len (closing)):
   for x in range (len (closing [y])):
@@ -48,8 +48,44 @@ for i in cerne:
   if (i [1] < nejmY):
     nejmY = i [1]
     
+
+img = cv2.imread('image.jpg',0)
+res = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
 dice = res[nejmY:nejvY, nejmX:nejvX]
-print (nejvX, nejvY)
-print (nejmX, nejmY)
-cv2.imshow('blue', dice)
+
+#ret,thresh1 = cv2.threshold(dice,110,255,cv2.THRESH_BINARY)
+thresh2 = cv2.adaptiveThreshold(dice,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,11,2)
+
+#kernel = np.ones((10,10),np.uint8)
+#opening = cv2.morphologyEx(thresh2, cv2.MORPH_OPEN, kernel)
+kernel = np.ones((5,5),np.uint8)
+closing = cv2.morphologyEx(thresh2, cv2.MORPH_CLOSE, kernel)
+
+pocetPuntiku = 0
+for y in range (len (closing)):
+  for x in range (len (closing [y])):
+    if (closing [y][x] == 0):
+      pocetPuntiku += 1
+      zmena = 1
+      closing [y][x] = 128
+      while (zmena):
+        zmena = 0
+        for yy in range (len (closing)):
+          for xx in range (len (closing [yy])):
+            if (closing [yy][xx] == 128):
+              if (closing [yy - 1][xx] == 0):
+                closing [yy - 1][xx] = 128
+                zmena = 1
+              if (closing [yy + 1][xx] == 0):
+                closing [yy + 1][xx] = 128
+                zmena = 1
+              if (closing [yy][xx - 1] == 0):
+                closing [yy][xx - 1] = 128
+                zmena = 1
+              if (closing [yy][xx + 1] == 0):
+                closing [yy][xx + 1] = 128
+                zmena = 1
+print (pocetPuntiku)
+
+cv2.imshow('blue', closing)
 cv2.waitKey(0)
