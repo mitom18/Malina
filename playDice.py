@@ -11,7 +11,7 @@ camera.capture('image.jpg')
 
 camera.close()
 
-"""img = cv2.imread('image.jpg')
+img = cv2.imread('image.jpg')
 img2 = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
 hsv_img = cv2.cvtColor(img2, cv2.COLOR_BGR2HSV)
 
@@ -44,10 +44,12 @@ for i in cerne:
     nejmX = i [0]
   if (i [1] < nejmY):
     nejmY = i [1]
-    """
+   
 
 img = cv2.imread('image.jpg',cv2.CV_8UC1)
-dice = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
+res = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
+dice = res[nejmY:nejvY, nejmX:nejvX]
+
 
 #ret,thresh1 = cv2.threshold(dice,110,255,cv2.THRESH_BINARY)
 thresh2 = cv2.adaptiveThreshold(dice,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,11,2)
