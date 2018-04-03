@@ -4,14 +4,13 @@ import cv2
 import numpy as np
 #from matplotlib import pyplot as plt
 
-
 camera = picamera.PiCamera()
 
 camera.capture('image.jpg')
 
 camera.close()
-
-"""img = cv2.imread('image.jpg')
+"""
+img = cv2.imread('image.jpg')
 img2 = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
 hsv_img = cv2.cvtColor(img2, cv2.COLOR_BGR2HSV)
 
@@ -44,12 +43,10 @@ for i in cerne:
     nejmX = i [0]
   if (i [1] < nejmY):
     nejmY = i [1]
-   """
+    """
 
 img = cv2.imread('image.jpg',cv2.CV_8UC1)
 dice = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
-#dice = res[nejmY:nejvY, nejmX:nejvX]
-
 
 #ret,thresh1 = cv2.threshold(dice,110,255,cv2.THRESH_BINARY)
 thresh2 = cv2.adaptiveThreshold(dice,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,11,2)
@@ -60,9 +57,28 @@ kernel = np.ones((5,5),np.uint8)
 closing = cv2.morphologyEx(thresh2, cv2.MORPH_CLOSE, kernel)
 
 pocetPuntiku = 0
+ukoly = []
 for y in range (len (closing)):
   for x in range (len (closing [y])):
     if (closing [y][x] == 0):
+      closing [y][x] = 128
+      pocetPuntiku += 1
+      ukoly.append ([x,y])
+      while (len (ukoly) > 0):
+        a = ukoly.pop (0)
+        if (closing [a [1] + 1][a [0]] == 0):
+          closing [a [1] + 1][a [0]] = 128
+          ukoly.append ([a [0], a[1] + 1])
+        if (closing [a [1] - 1][a [0]] == 0):
+          closing [a [1] - 1][a [0]] = 128
+          ukoly.append ([a [0], a[1] - 1])
+        if (closing [a [1]][a [0] + 1] == 0):
+          closing [a [1]][a [0] + 1] = 128
+          ukoly.append ([a [0] + 1, a[1]])
+        if (closing [a [1]][a [0] - 1] == 0):
+          closing [a [1]][a [0] - 1] = 128
+          ukoly.append ([a [0] - 1, a[1]])
+      """
       pocetPuntiku += 1
       zmena = 1
       closing [y][x] = 128
@@ -70,7 +86,7 @@ for y in range (len (closing)):
         zmena = 0
         for yy in range (len (closing)):
           for xx in range (len (closing [yy])):
-            if (closing [yy][xx] == 128):
+            if (closing [yy][xx] == 128 ):
               if (closing [yy - 1][xx] == 0):
                 closing [yy - 1][xx] = 128
                 zmena = 1
@@ -82,7 +98,7 @@ for y in range (len (closing)):
                 zmena = 1
               if (closing [yy][xx + 1] == 0):
                 closing [yy][xx + 1] = 128
-                zmena = 1
+                zmena = 1"""
 print (pocetPuntiku)
 
 cv2.imshow('blue', closing)
