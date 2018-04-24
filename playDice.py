@@ -5,16 +5,16 @@ import numpy as np
 #from matplotlib import pyplot as plt
 import RPi.GPIO as gpio
 from time import sleep
-
+"""
 gpio.setmode (gpio.BOARD)
-
+print ("zacatek motoru")
 gpio.setup (11, gpio.OUT, initial = gpio.LOW)
 sleep (1)
 gpio.output (11, gpio.HIGH)
 sleep (2)
 gpio.output (11, gpio.LOW)
 gpio.cleanup()
-
+print ("konec motoru")"""
 camera = picamera.PiCamera()
 
 camera.capture('image.jpg')
@@ -95,8 +95,8 @@ for y in range (len (closing)):
       closing [y][x] = 128
       while (zmena):
         zmena = 0
-        for yy in range (len (closing)):
-          for xx in range (len (closing [yy])):
+        for yy in range (1, len (closing) - 1):
+          for xx in range (1, len (closing [yy]) - 1):
             if (closing [yy][xx] == 128 ):
               if (closing [yy - 1][xx] == 0):
                 closing [yy - 1][xx] = 128
