@@ -15,6 +15,9 @@ sleep (2)
 gpio.output (11, gpio.LOW)
 gpio.cleanup()
 print ("konec motoru")
+
+sleep (2)
+
 camera = picamera.PiCamera()
 
 camera.capture('image.jpg')
