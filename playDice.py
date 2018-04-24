@@ -5,7 +5,7 @@ import numpy as np
 #from matplotlib import pyplot as plt
 import RPi.GPIO as gpio
 from time import sleep
-"""
+
 gpio.setmode (gpio.BOARD)
 print ("zacatek motoru")
 gpio.setup (11, gpio.OUT, initial = gpio.LOW)
@@ -14,7 +14,7 @@ gpio.output (11, gpio.HIGH)
 sleep (2)
 gpio.output (11, gpio.LOW)
 gpio.cleanup()
-print ("konec motoru")"""
+print ("konec motoru")
 camera = picamera.PiCamera()
 
 camera.capture('image.jpg')
